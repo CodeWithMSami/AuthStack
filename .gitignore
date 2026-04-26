@@ -1,0 +1,59 @@
+# Python & Django
+venv/
+env/
+ENV/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Database
+db.sqlite3
+*.db
+
+# Django specific
+*.log
+migrations/__pycache__/
+!migrations/__init__.py
+
+# Environment variables
+.env
+*.env
+.env.local
+
+# Secret keys & sensitive data
+config.py
+secrets.json
+secret_key.txt
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+.gitignore
+
+# Testing & Coverage
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+
+# Package management
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual environment
+lib/
+lib64/
+bin/
+include/
+share/
+pyvenv.cfg

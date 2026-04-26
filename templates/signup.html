@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>AuthStack | Sign up</title>
+    <link rel="shortcut icon" href="{% static 'icon.png' %}" type="image/*">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'signup.css' %}">
+</head>
+
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="logo-icon">
+                <img src="{% static 'icon.png' %}" alt="AuthStack Logo">
+            </div>
+            <h1>Create account</h1>
+            <p class="subtitle">Join AuthStack today</p>
+
+            <form class="auth-form" action="/" method="post">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required placeholder="cooldev123">
+                </div>
+
+                <div class="input-group">
+                    <label for="email">Email address</label>
+                    <input type="email" id="email" name="email" required placeholder="hello@authstack.com">
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required
+                        placeholder="Create a strong password">
+                </div>
+
+                <div class="input-group">
+                    <label for="confirm-password">Confirm password</label>
+                    <input type="password" id="confirm-password" name="confirm-password" required
+                        placeholder="••••••••">
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="terms" required> I agree to the <a href="/terms">Terms</a> and <a
+                            href="/privacy">Privacy</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="auth-btn">
+                    <img src="{% static 'email.gif' %}" alt="Sign up" class="btn-icon">
+                    <span>Sign up</span>
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Already have an account? <a href="/login">Log in</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

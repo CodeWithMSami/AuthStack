@@ -1,0 +1,335 @@
+/* ========== RESET & GLOBAL ========== */
+:root {
+    --primary-light-rgb: 6, 248, 6;
+    --primary-light-color: rgb(var(--primary-light-rgb));
+    --primary-dark: rgb(4, 200, 4);
+    --transition-speed: 0.4s;
+    --shadow-glow: 0 0 20px rgba(6, 248, 6, 0.4);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: "Roboto", sans-serif;
+    position: relative;
+}
+
+/* Dark overlay for better contrast */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 0;
+}
+
+.container {
+    height: auto;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 60px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Image Container */
+.image-container {
+    transition: transform 0.3s ease;
+}
+
+.image {
+    height: 200px;
+    width: 200px;
+    border: 7px solid var(--primary-light-color);
+    border-radius: 50%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.image:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-glow);
+    border-color: var(--primary-dark);
+}
+
+/* ========== BUTTONS CONTAINER (side by side) ========== */
+.auth-btns {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ========== FIXED BUTTON CORE (hover text now visible) ========== */
+.ancor-cont {
+    display: flex;
+    align-items: center;
+    position: relative;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 70px;
+    transition: all var(--transition-speed) ease;
+    /* CRITICAL FIX: allow text to appear outside button */
+    overflow: visible !important;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    isolation: auto;
+}
+
+/* Remove default link styles */
+.ancor-cont:link,
+.ancor-cont:visited,
+.ancor-cont:hover,
+.ancor-cont:active {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Hover Background Effect */
+.hover-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, rgba(var(--primary-light-rgb), 0.2), rgba(var(--primary-light-rgb), 0.05));
+    border-radius: 70px;
+    opacity: 0;
+    transition: opacity var(--transition-speed) ease;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.ancor-cont:hover .hover-bg {
+    opacity: 1;
+}
+
+/* Icon Wrapper */
+.icon-wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Icon Styling (GIF icons) */
+.ancor {
+    height: 80px;
+    width: 80px;
+    border: 4px solid var(--primary-light-color);
+    border-radius: 50%;
+    object-fit: cover;
+    background: white;
+    transition: all var(--transition-speed) ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.ancor-cont:hover .ancor {
+    transform: scale(1.08);
+    border-color: var(--primary-dark);
+    box-shadow: var(--shadow-glow);
+}
+
+/* ========== SLIDE-IN TEXT (FIXED: fully visible on hover) ========== */
+.image-title {
+    font-family: "Roboto", sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    position: absolute;
+    left: calc(100% + 10px);
+    white-space: nowrap;
+    z-index: 20;
+    background: linear-gradient(135deg, var(--primary-light-color), var(--primary-dark));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease, left 0.2s ease;
+    pointer-events: none;
+}
+
+/* Reveal text on hover */
+.ancor-cont:hover .image-title {
+    opacity: 1;
+    visibility: visible;
+    left: calc(100% + 10px);
+}
+
+/* Button hover expansion & lift */
+.ancor-cont:hover {
+    padding-right: 25px;
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Active click effect */
+.ancor-cont:active {
+    transform: translateY(0px);
+}
+
+.ancor-cont:active .ancor {
+    transform: scale(0.98);
+}
+
+/* Focus states for accessibility */
+.ancor-cont:focus {
+    outline: 2px solid var(--primary-light-color);
+    outline-offset: 4px;
+    border-radius: 70px;
+}
+
+/* ========== LOADING ANIMATIONS (once only) ========== */
+img {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Entrance slide animations */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.ancor-cont:first-child {
+    animation: slideInLeft 0.5s ease-out;
+}
+
+.ancor-cont:last-child {
+    animation: slideInRight 0.5s ease-out;
+}
+
+/* Disable continuous animations for main logo */
+.image,
+.image-container {
+    animation: none;
+}
+
+/* ========== RESPONSIVE (exactly as original) ========== */
+@media (max-width: 768px) {
+    .auth-btns {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .image {
+        height: 150px;
+        width: 150px;
+    }
+
+    .ancor {
+        height: 65px;
+        width: 65px;
+    }
+
+    .image-title {
+        font-size: 24px;
+    }
+
+    .ancor-cont:hover {
+        padding-right: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        gap: 40px;
+    }
+
+    .image {
+        height: 120px;
+        width: 120px;
+        border-width: 5px;
+    }
+
+    .ancor {
+        height: 55px;
+        width: 55px;
+        border-width: 3px;
+    }
+
+    .image-title {
+        font-size: 20px;
+    }
+
+    .ancor-cont:hover {
+        padding-right: 15px;
+    }
+
+    .auth-btns {
+        gap: 20px;
+    }
+}
+
+/* Extra safety: prevent any clipping from parent containers */
+.container,
+.auth-btns,
+body,
+main {
+    overflow: visible;
+}
+
+/* Fine-tune for narrow devices */
+@media (max-width: 650px) {
+    .ancor-cont .image-title {
+        font-size: 20px;
+    }
+
+    .ancor-cont:hover {
+        padding-right: 18px;
+    }
+}

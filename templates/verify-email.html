@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>AuthStack | Verify Email</title>
+    <link rel="shortcut icon" href="{% static 'icon.png' %}" type="image/*">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'verify-email.css' %}">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="logo-icon">
+                <img src="{% static 'icon.png' %}" alt="AuthStack Logo">
+            </div>
+            
+            <!-- Verification States -->
+            <div id="verificationPending" class="verification-state active">
+                <div class="verification-icon">✉️</div>
+                <h1>Verify Your Email</h1>
+                <p class="subtitle">We've sent a verification link to:</p>
+                <p class="email-display" id="userEmail">user@example.com</p>
+                <p class="instruction-text">Please check your inbox and click the verification link to complete your registration.</p>
+                
+                <div class="action-buttons">
+                    <button class="resend-btn" id="resendBtn">
+                        <span>🔄</span> Resend Verification Email
+                    </button>
+                    <button class="change-email-btn" id="changeEmailBtn">
+                        <span>✏️</span> Change Email
+                    </button>
+                </div>
+                
+                <div class="resend-timer" id="resendTimer" style="display: none;">
+                    <span>Resend available in <span id="timerSeconds">60</span> seconds</span>
+                </div>
+            </div>
+
+            <div id="verificationSuccess" class="verification-state">
+                <div class="verification-icon success">✅</div>
+                <h1>Email Verified!</h1>
+                <p class="subtitle">Your email has been successfully verified.</p>
+                <p class="instruction-text">You can now access all features of your account.</p>
+                <button class="continue-btn" id="continueBtn">
+                    <span>🚀</span> Continue to Dashboard
+                </button>
+            </div>
+
+            <div id="verificationError" class="verification-state">
+                <div class="verification-icon error">❌</div>
+                <h1>Verification Failed</h1>
+                <p class="subtitle">We couldn't verify your email address.</p>
+                <p class="instruction-text" id="errorMessage">The verification link may be invalid or expired.</p>
+                <div class="action-buttons">
+                    <button class="resend-btn" id="errorResendBtn">
+                        <span>🔄</span> Request New Link
+                    </button>
+                    <button class="contact-btn" onclick="window.location.href='/contact'">
+                        <span>📞</span> Contact Support
+                    </button>
+                </div>
+            </div>
+
+            <div class="auth-footer">
+                <a href="/login">← Back to Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Email Modal -->
+    <div id="changeEmailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-icon">✏️</div>
+            <h3>Change Email Address</h3>
+            <p>Enter your new email address to receive verification link.</p>
+            <form id="changeEmailForm">
+                <div class="input-group">
+                    <label for="newEmail">New Email Address</label>
+                    <input type="email" id="newEmail" name="newEmail" required placeholder="Enter new email">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="modal-cancel-btn" onclick="closeChangeEmailModal()">Cancel</button>
+                    <button type="submit" class="modal-submit-btn">Send Verification</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="{% static 'verify-email.js' %}"></script>
+</body>
+</html>

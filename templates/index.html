@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>AuthStack | An authentication App.</title>
+    <link rel="shortcut icon" href="{% static 'icon.png' %}" type="image/*">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'index.css' %}">
+</head>
+
+<body>
+    <main class="container">
+        <div class="image-container">
+            <img src="{% static 'icon.png' %}" alt="AuthStack Logo" class="image">
+        </div>
+        <div class="auth-btns">
+            <a href="/login" class="ancor-cont">
+                <div class="icon-wrapper">
+                    <img src="{% static 'finger.gif' %}" alt="Login" class="ancor">
+                </div>
+                <span class="image-title">Log in</span>
+                <div class="hover-bg"></div>
+            </a>
+            <a href="/signup" class="ancor-cont">
+                <div class="icon-wrapper">
+                    <img src="{% static 'email.gif' %}" alt="Signup" class="ancor">
+                </div>
+                <span class="image-title">Sign up</span>
+                <div class="hover-bg"></div>
+            </a>
+        </div>
+    </main>
+</body>
+
+</html>
