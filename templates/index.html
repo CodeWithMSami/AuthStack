@@ -52,15 +52,13 @@
                 <span class="image-title">{% if is_authenticated %}Logout{% else %}Login{% endif %}</span>
                 <div class="hover-bg"></div>
             </a>
-            {% if not is_authenticated %}
-            <a href="/signup" class="ancor-cont">
+            <a href="{% if is_authenticated %}/profile{% else %}/signup{% endif %}" class="ancor-cont">
                 <div class="icon-wrapper">
                     <img src="{% static 'email.gif' %}" alt="Signup" class="ancor">
                 </div>
-                <span class="image-title">Sign up</span>
+                <span class="image-title">{% if is_authenticated %}Profile{% else %}Sign up{% endif %}</span>
                 <div class="hover-bg"></div>
             </a>
-            {% endif %}
         </div>
     </main>
     <script src="{% static 'message.js' %}"></script>

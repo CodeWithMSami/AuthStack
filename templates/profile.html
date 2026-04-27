@@ -46,12 +46,12 @@
             <h1>Edit Profile</h1>
             <p class="subtitle">Update your personal information</p>
 
-            <form class="profile-form" method="post" enctype="multipart/form-data" id="profileForm">
+            <form class="profile-form" method="post" action='/profile' id="profileForm">
                 {% csrf_token %}
                 <div class="avatar-section">
                     <div class="avatar-wrapper" id="avatarWrapper">
                         <img id="avatarPreview" 
-                             src="{% if user.profile.profile_pic %}{{ user.profile.profile_pic.url }}{% else %}{% static 'icon.png' %}{% endif %}" 
+                             src="{% if user.picture %}{{ user.picture.url }}{% else %}{% static 'icon.png' %}{% endif %}" 
                              alt="Profile Picture" 
                              class="avatar-img"
                              onerror="this.src='{% static 'icon.png' %}'; this.classList.add('error-load')">
@@ -111,7 +111,7 @@
             </form>
 
             <div class="auth-footer">
-                <a href="/dashboard">← Back to Dashboard</a>
+                <a href="/">← Back to Dashboard</a>
             </div>
         </div>
     </div>

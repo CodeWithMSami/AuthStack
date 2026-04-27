@@ -38,6 +38,8 @@ secret_key.txt
 .DS_Store
 Thumbs.db
 
+# Media
+media/
 .gitignore
 
 # Testing & Coverage

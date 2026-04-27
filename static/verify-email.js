@@ -274,7 +274,7 @@
 
         // Continue to dashboard
         function continueToDashboard() {
-            window.location.href = '/dashboard';
+            window.location.href = '/';
         }
 
         // Event listeners

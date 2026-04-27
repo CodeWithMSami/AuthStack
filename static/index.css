@@ -178,12 +178,12 @@ body::before {
 .ancor-cont:hover .image-title {
     opacity: 1;
     visibility: visible;
-    left: calc(100% + 10px);
+    left: 50%;
 }
 
 /* Button hover expansion & lift */
 .ancor-cont:hover {
-    padding-right: 25px;
+    padding-right: 125px;
     transform: translateY(-3px);
     background: rgba(255, 255, 255, 0.15);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -281,7 +281,7 @@ img {
     }
 
     .ancor-cont:hover {
-        padding-right: 20px;
+        padding-right: 100px;
     }
 }
 
@@ -330,6 +330,6 @@ main {
     }
 
     .ancor-cont:hover {
-        padding-right: 18px;
+        padding-right: 80px;
     }
 }

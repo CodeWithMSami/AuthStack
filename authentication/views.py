@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest
 from django.contrib import messages
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+import os
+from datetime import datetime
 
 User = get_user_model()
 
@@ -90,13 +92,105 @@ def signupUser(request: HttpRequest):
     return render(request, template_name='signup.html')
 
 def profileUser(request: HttpRequest):
-    return render(request, template_name='profile.html')
+    if not request.user.is_authenticated:
+        messages.info(request=request, message='Please login first.')
+        return redirect("login")
+    
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        current_password = request.POST.get('current_password')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+        
+        has_changes = False
+        
+        if username and username != request.user.username:
+            if request.user.objects.exclude(pk=request.user.pk).filter(username=username):
+                messages.error(request=request, message='Username already taken.')
+            else:
+                request.user.username = username
+                has_changes = True
+        
+        if first_name != request.user.first_name:
+            request.user.first_name = first_name
+            has_changes = True
+                   
+        if last_name != request.user.last_name:
+            request.user.last_name = last_name
+            has_changes = True
+            
+        if email and email != request.user.email:
+            if request.user.objects.exclude(pk=request.user.pk).filter(email=email):
+                messages.error(request=request, message='Email is already taken.')
+            else:
+                request.user.email = email
+                has_changes = True
+                
+        if 'profile_pic' in request.FILES:
+            profile_pic = request.FILES['profile_pic']
+            
+            if profile_pic.size > 5*1024*1024:
+                messages.error(request=request, message='File is too large. Maximum 5MB is allowed.')
+            else:
+                allowed_types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+                if profile_pic.content_type not in allowed_types:
+                    messages.error(request=request, message="Invalid file type. Please upload JPEG, PNG, GIF, or WEBP images.")
+                else:
+                    if request.user.picture:
+                        old_pic_path = request.user.picture.path
+                        if os.path.isfile(old_pic_path):
+                            os.remove(old_pic_path)
+                        file_extension = profile_pic.name.split('.')[-1]
+                        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+                        new_filename = f"profile_pics/{request.user.username}_{timestamp}.{file_extension}"
+                        request.user.picture.save(new_filename, profile_pic)
+                        has_changes = True
+                        
+        if new_password or confirm_password or current_password:
+            if not current_password:
+                messages.error(request, 'Current password is required to change password.')
+            elif not request.user.check_password(current_password):
+                messages.error(request, 'Current password is incorrect.')
+            elif not new_password:
+                messages.error(request, 'New password is required.')
+            elif new_password != confirm_password:
+                messages.error(request, 'New passwords do not match.')
+            elif len(new_password) < 8:
+                messages.error(request, 'Password must be at least 8 characters long.')
+            else:
+                request.user.set_password(new_password)
+                has_changes = True
+                # Update session to prevent logout
+                update_session_auth_hash(request, request.user)
+                messages.success(request, 'Password changed successfully!')
+                
+        if has_changes:
+            request.user.save()
+            messages.success(request, 'Your profile has been updated successfully!')
+        elif not any([current_password, new_password, confirm_password]):
+            messages.info(request, 'No changes were made to your profile.')
+            
+    context = {
+        "user": request.user
+    }
+        
+    return render(request, template_name='profile.html', context=context)
 
 def forgotPassword(request: HttpRequest):
+    if request.user.is_authenticated:
+        messages.info(request=request, message='User is logged in.')
+        return redirect("/")
+    
     return render(request, template_name='forgot-password.html')
 
 def verifyUser(request: HttpRequest):
-    # if request.method == 'P'
+    if request.user.verified:
+        messages.info(request=request, message="User is already verified.")
+        return redirect('/')
+                
     return render(request, template_name='verify-email.html')
 
 def logoutUser(request: HttpRequest):
