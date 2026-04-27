@@ -4,19 +4,20 @@ from .models import User
 
 class CustomUser(UserAdmin):
     model = User
-    fieldsets = UserAdmin.fieldsets + (
+    fieldsets = (
         ("Account Information", {
             'fields': (
-                'balance', 'picture'
+                'username', 'picture', 'balance', 'verified', 'password'
             ),
         }),
-    )
-    add_fieldsets = UserAdmin.add_fieldsets + (
+    ) + UserAdmin.fieldsets[1:]
+    
+    add_fieldsets = (
         ("Account Information", {
             'fields': (
-                'balance', 'picture'
+                'username', 'picture', 'balance', 'verified', 'password'
             ),
         }),
-    )
+    ) + UserAdmin.add_fieldsets[1:]
 
 admin.site.register(User, CustomUser)

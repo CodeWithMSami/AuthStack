@@ -1,0 +1,214 @@
+/* ============================================
+   DJANGO MESSAGES DESIGN
+   ============================================ */
+
+.django-messages-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    left: auto;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 400px;
+    width: calc(100% - 40px);
+    pointer-events: none;
+}
+
+.message-toast {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(12px);
+    border-radius: 14px;
+    border-left: 4px solid;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    pointer-events: auto;
+    animation: slideInRight 0.3s ease-out forwards;
+    transition: all 0.3s ease;
+}
+
+.message-toast:hover {
+    transform: translateX(-5px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+}
+
+/* Message Icons */
+.message-icon {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 16px;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+/* Message Content */
+.message-content {
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+/* Close Button */
+.message-close {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 20px;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.message-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    transform: scale(1.1);
+}
+
+/* ============================================
+   MESSAGE TYPES (TAGS)
+   ============================================ */
+
+/* Success Message */
+.message-success {
+    border-left-color: #06f806;
+    background: linear-gradient(135deg, rgba(6, 248, 6, 0.15), rgba(0, 0, 0, 0.85));
+}
+
+.message-success .message-icon {
+    background: rgba(6, 248, 6, 0.2);
+    color: #06f806;
+    box-shadow: 0 0 10px rgba(6, 248, 6, 0.3);
+}
+
+/* Error Message */
+.message-error {
+    border-left-color: #ff4444;
+    background: linear-gradient(135deg, rgba(255, 68, 68, 0.15), rgba(0, 0, 0, 0.85));
+}
+
+.message-error .message-icon {
+    background: rgba(255, 68, 68, 0.2);
+    color: #ff4444;
+    box-shadow: 0 0 10px rgba(255, 68, 68, 0.3);
+}
+
+/* Warning Message */
+.message-warning {
+    border-left-color: #ff9800;
+    background: linear-gradient(135deg, rgba(255, 152, 0, 0.15), rgba(0, 0, 0, 0.85));
+}
+
+.message-warning .message-icon {
+    background: rgba(255, 152, 0, 0.2);
+    color: #ff9800;
+    box-shadow: 0 0 10px rgba(255, 152, 0, 0.3);
+}
+
+/* Info Message */
+.message-info {
+    border-left-color: #2196f3;
+    background: linear-gradient(135deg, rgba(33, 150, 243, 0.15), rgba(0, 0, 0, 0.85));
+}
+
+.message-info .message-icon {
+    background: rgba(33, 150, 243, 0.2);
+    color: #2196f3;
+    box-shadow: 0 0 10px rgba(33, 150, 243, 0.3);
+}
+
+/* Debug Message (if used) */
+.message-debug {
+    border-left-color: #9c27b0;
+    background: linear-gradient(135deg, rgba(156, 39, 176, 0.15), rgba(0, 0, 0, 0.85));
+}
+
+.message-debug .message-icon {
+    background: rgba(156, 39, 176, 0.2);
+    color: #9c27b0;
+    box-shadow: 0 0 10px rgba(156, 39, 176, 0.3);
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+}
+
+.message-toast.removing {
+    animation: slideOutRight 0.3s ease-out forwards;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+    .django-messages-container {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        width: calc(100% - 20px);
+    }
+    
+    .message-toast {
+        padding: 12px 14px;
+    }
+    
+    .message-content {
+        font-size: 13px;
+    }
+    
+    .message-icon {
+        width: 24px;
+        height: 24px;
+        font-size: 14px;
+    }
+}
+
+/* Optional: Center messages on mobile */
+@media (max-width: 480px) {
+    .django-messages-container {
+        top: auto;
+        bottom: 20px;
+        left: 10px;
+        right: 10px;
+    }
+}

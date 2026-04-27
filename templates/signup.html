@@ -11,9 +11,35 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="{% static 'signup.css' %}">
+    <link rel="stylesheet" href="{% static 'message.css' %}">
 </head>
 
 <body>
+    {% if messages %}
+    <div class="django-messages-container" id="djangoMessages">
+        {% for message in messages %}
+            <div class="message-toast message-{{ message.tags }}" role="alert">
+                <div class="message-icon">
+                    {% if message.tags == 'success' %}
+                        ✓
+                    {% elif message.tags == 'error' %}
+                        ✗
+                    {% elif message.tags == 'warning' %}
+                        ⚠
+                    {% elif message.tags == 'info' %}
+                        ℹ
+                    {% else %}
+                        •
+                    {% endif %}
+                </div>
+                <div class="message-content">
+                    {{ message }}
+                </div>
+                <button class="message-close" onclick="this.parentElement.remove()">×</button>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
     <div class="auth-container">
         <div class="auth-card">
             <div class="logo-icon">
@@ -22,7 +48,8 @@
             <h1>Create account</h1>
             <p class="subtitle">Join AuthStack today</p>
 
-            <form class="auth-form" action="/" method="post">
+            <form class="auth-form" action="/signup" method="post">
+                {% csrf_token %}
                 <div class="input-group">
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username" required placeholder="cooldev123">
@@ -63,6 +90,7 @@
             </div>
         </div>
     </div>
+    <script src="{% static 'message.js' %}"></script>
 </body>
 
 </html>

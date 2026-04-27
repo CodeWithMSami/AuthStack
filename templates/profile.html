@@ -10,8 +10,34 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'profile.css' %}">
+    <link rel="stylesheet" href="{% static 'message.css' %}">
 </head>
 <body>
+    {% if messages %}
+    <div class="django-messages-container" id="djangoMessages">
+        {% for message in messages %}
+            <div class="message-toast message-{{ message.tags }}" role="alert">
+                <div class="message-icon">
+                    {% if message.tags == 'success' %}
+                        ✓
+                    {% elif message.tags == 'error' %}
+                        ✗
+                    {% elif message.tags == 'warning' %}
+                        ⚠
+                    {% elif message.tags == 'info' %}
+                        ℹ
+                    {% else %}
+                        •
+                    {% endif %}
+                </div>
+                <div class="message-content">
+                    {{ message }}
+                </div>
+                <button class="message-close" onclick="this.parentElement.remove()">×</button>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
     <div class="profile-container">
         <div class="profile-card">
             <div class="logo-icon">
@@ -91,5 +117,6 @@
     </div>
 
     <script src="{% static 'profile.js' %}"></script>
+    <script src="{% static 'message.js' %}"></script>
 </body>
 </html>

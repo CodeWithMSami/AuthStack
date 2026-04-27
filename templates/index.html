@@ -11,21 +11,48 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="{% static 'index.css' %}">
+    <link rel="stylesheet" href="{% static 'message.css' %}">
 </head>
 
 <body>
+    {% if messages %}
+    <div class="django-messages-container" id="djangoMessages">
+        {% for message in messages %}
+            <div class="message-toast message-{{ message.tags }}" role="alert">
+                <div class="message-icon">
+                    {% if message.tags == 'success' %}
+                        ✓
+                    {% elif message.tags == 'error' %}
+                        ✗
+                    {% elif message.tags == 'warning' %}
+                        ⚠
+                    {% elif message.tags == 'info' %}
+                        ℹ
+                    {% else %}
+                        •
+                    {% endif %}
+                </div>
+                <div class="message-content">
+                    {{ message }}
+                </div>
+                <button class="message-close" onclick="this.parentElement.remove()">×</button>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
     <main class="container">
         <div class="image-container">
             <img src="{% static 'icon.png' %}" alt="AuthStack Logo" class="image">
         </div>
         <div class="auth-btns">
-            <a href="/login" class="ancor-cont">
+            <a href="{% if is_authenticated %}/logout{% else %}/login{% endif %}" class="ancor-cont">
                 <div class="icon-wrapper">
                     <img src="{% static 'finger.gif' %}" alt="Login" class="ancor">
                 </div>
-                <span class="image-title">Log in</span>
+                <span class="image-title">{% if is_authenticated %}Logout{% else %}Login{% endif %}</span>
                 <div class="hover-bg"></div>
             </a>
+            {% if not is_authenticated %}
             <a href="/signup" class="ancor-cont">
                 <div class="icon-wrapper">
                     <img src="{% static 'email.gif' %}" alt="Signup" class="ancor">
@@ -33,8 +60,10 @@
                 <span class="image-title">Sign up</span>
                 <div class="hover-bg"></div>
             </a>
+            {% endif %}
         </div>
     </main>
+    <script src="{% static 'message.js' %}"></script>
 </body>
 
 </html>
