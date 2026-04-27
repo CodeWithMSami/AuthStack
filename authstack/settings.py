@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "authentication"
 ]
 
 MIDDLEWARE = [
@@ -110,6 +111,16 @@ USE_I18N = True
 
 USE_TZ = True
 
+SITE_NAME = "AuthStack"
+SITE_TITLE = "AuthStack"
+SITE_DESCRIPTION = "This is a django authentication webiste."
+SITE_KEYWORDS = "django, web, app, authstack, website,"
+SITE_AUTHOR = "CodeWithMSami"
+DEFAULT_FROM_EMAIL = "noreply@example.com"
+EMAIL_SUBJECT_PREFIX = f"[{SITE_NAME}] "
+ADMIN_SITE_HEADER = f"{SITE_NAME} Administration"
+ADMIN_SITE_TITLE = f"{SITE_NAME} Admin"
+ADMIN_INDEX_TITLE = f"Welcome to {SITE_NAME} Admin Panel."
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
@@ -119,3 +130,8 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+AUTH_USER_MODEL = 'authentication.User'
