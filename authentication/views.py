@@ -108,7 +108,7 @@ def profileUser(request: HttpRequest):
         has_changes = False
         
         if username and username != request.user.username:
-            if request.user.objects.exclude(pk=request.user.pk).filter(username=username):
+            if User.objects.exclude(pk=request.user.pk).filter(username=username).exists():
                 messages.error(request=request, message='Username already taken.')
             else:
                 request.user.username = username
@@ -123,13 +123,13 @@ def profileUser(request: HttpRequest):
             has_changes = True
             
         if email and email != request.user.email:
-            if request.user.objects.exclude(pk=request.user.pk).filter(email=email):
+            if User.objects.exclude(pk=request.user.pk).filter(email=email).exists():
                 messages.error(request=request, message='Email is already taken.')
             else:
                 request.user.email = email
                 has_changes = True
                 
-        if 'profile_pic' in request.FILES:
+        if 'profile_pic' in request.FILES and request.FILES['profile_pic']:
             profile_pic = request.FILES['profile_pic']
             
             if profile_pic.size > 5*1024*1024:
@@ -145,7 +145,7 @@ def profileUser(request: HttpRequest):
                             os.remove(old_pic_path)
                         file_extension = profile_pic.name.split('.')[-1]
                         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-                        new_filename = f"profile_pics/{request.user.username}_{timestamp}.{file_extension}"
+                        new_filename = f"{request.user.username}_{timestamp}.{file_extension}"
                         request.user.picture.save(new_filename, profile_pic)
                         has_changes = True
                         
@@ -170,7 +170,7 @@ def profileUser(request: HttpRequest):
         if has_changes:
             request.user.save()
             messages.success(request, 'Your profile has been updated successfully!')
-        elif not any([current_password, new_password, confirm_password]):
+        elif not any([current_password, new_password, confirm_password]) and 'profile_pic' not in request.FILES:
             messages.info(request, 'No changes were made to your profile.')
             
     context = {

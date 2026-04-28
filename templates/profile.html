@@ -46,7 +46,7 @@
             <h1>Edit Profile</h1>
             <p class="subtitle">Update your personal information</p>
 
-            <form class="profile-form" method="post" action='/profile' id="profileForm">
+            <form class="profile-form" method="post" action='/profile' id="profileForm" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="avatar-section">
                     <div class="avatar-wrapper" id="avatarWrapper">

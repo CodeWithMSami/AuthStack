@@ -16,6 +16,7 @@ db.sqlite3
 *.log
 migrations/__pycache__/
 !migrations/__init__.py
+__init__.py
 
 # Environment variables
 .env
@@ -39,7 +40,8 @@ secret_key.txt
 Thumbs.db
 
 # Media
-media/
+media/*
+!media/icon.png
 .gitignore
 
 # Testing & Coverage
