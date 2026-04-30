@@ -7,7 +7,7 @@ class CustomUser(UserAdmin):
     fieldsets = (
         ("Account Information", {
             'fields': (
-                'username', 'picture', 'balance', 'verified', 'password'
+                'username', 'picture', 'balance', 'password'
             ),
         }),
     ) + UserAdmin.fieldsets[1:]
@@ -15,7 +15,7 @@ class CustomUser(UserAdmin):
     add_fieldsets = (
         ("Account Information", {
             'fields': (
-                'username', 'picture', 'balance', 'verified', 'password'
+                'username', 'picture', 'balance', 'password'
             ),
         }),
     ) + UserAdmin.add_fieldsets[1:]

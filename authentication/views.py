@@ -3,10 +3,12 @@ from django.http import HttpRequest
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from django.contrib.auth import get_user_model
+from django.core.mail import send_mail
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
-import os
+from django.conf import settings
 from datetime import datetime
+import os
 
 User = get_user_model()
 
@@ -41,6 +43,62 @@ def loginUser(request: HttpRequest):
                 request.session.set_expiry(7*24*60*60)
                 
             messages.success(request=request, message='Logged in successfully.')
+            
+            send_mail(
+                subject='Logged into AuthStack',
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                message='',
+                recipient_list= [user.email,],
+                html_message='''
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                      <meta charset="UTF-8">
+                      <title>AuthStack Login Alert</title>
+                    </head>
+                    <body style="margin:0; padding:0; font-family:Arial, sans-serif; background:#f4f4f4;">
+
+                      <table width="100%" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td align="center">
+
+                            <table width="400" cellpadding="20" cellspacing="0" style="background:#ffffff; margin-top:40px; border-radius:8px;">
+
+                              <tr>
+                                <td align="center" style="font-size:20px; font-weight:bold;">
+                                  AuthStack
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td style="font-size:14px; color:#333;">
+                                  Your account was just logged in.
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td style="font-size:14px; color:#333;">
+                                  If this was you, you can ignore this message.
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td style="font-size:14px; color:#333;">
+                                  If not, please secure your account immediately.
+                                </td>
+                              </tr>
+
+                            </table>
+
+                          </td>
+                        </tr>
+                      </table>
+
+                    </body>
+                    </html>
+                '''
+            )
+            
             return redirect('/')
         else:
             messages.error(request=request, message="Invalid username or password.")
@@ -85,9 +143,64 @@ def signupUser(request: HttpRequest):
         
         login(request=request, user=user)
         
+        send_mail(
+                subject='Account Creation AuthStack',
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                message='',
+                recipient_list= [user.email,],
+                html_message='''
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                      <meta charset="UTF-8">
+                      <title>AuthStack Account Creation</title>
+                    </head>
+                    <body style="margin:0; padding:0; font-family:Arial, sans-serif; background:#f4f4f4;">
+
+                      <table width="100%" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td align="center">
+
+                            <table width="400" cellpadding="20" cellspacing="0" style="background:#ffffff; margin-top:40px; border-radius:8px;">
+
+                              <tr>
+                                <td align="center" style="font-size:20px; font-weight:bold;">
+                                  AuthStack
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td style="font-size:14px; color:#333;">
+                                  Thanks! Your account was just created.
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td style="font-size:14px; color:#333;">
+                                  If this was you, you can ignore this message.
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td style="font-size:14px; color:#333;">
+                                  If not, please secure your account immediately.
+                                </td>
+                              </tr>
+
+                            </table>
+
+                          </td>
+                        </tr>
+                      </table>
+
+                    </body>
+                    </html>
+                '''
+            )
+        
         messages.success(request=request, message='User created successfully.')
         
-        return redirect('/verify')
+        return redirect('/')
         
     return render(request, template_name='signup.html')
 
@@ -178,20 +291,6 @@ def profileUser(request: HttpRequest):
     }
         
     return render(request, template_name='profile.html', context=context)
-
-def forgotPassword(request: HttpRequest):
-    if request.user.is_authenticated:
-        messages.info(request=request, message='User is logged in.')
-        return redirect("/")
-    
-    return render(request, template_name='forgot-password.html')
-
-def verifyUser(request: HttpRequest):
-    if request.user.verified:
-        messages.info(request=request, message="User is already verified.")
-        return redirect('/')
-                
-    return render(request, template_name='verify-email.html')
 
 def logoutUser(request: HttpRequest):
     if request.user.is_authenticated:

@@ -19,8 +19,7 @@ migrations/__pycache__/
 __init__.py
 
 # Environment variables
-.env
-*.env
+.env.production
 .env.local
 
 # Secret keys & sensitive data

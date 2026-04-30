@@ -9,17 +9,12 @@
 ## ✨ Features
 
 ### 🔐 Authentication
-- User registration & login with email validation
-- Email verification system
-- Password reset via email ("Forgot Password")
+- User registration & login with email notifications
 - Session management & secure logout
 - Profile editing with avatar upload
 
 ### 💰 Balance System
 - Each user has a personal balance (credits/points/virtual currency)
-- Add/deduct balance with transaction history
-- Transfer balance between users (optional)
-- Balance-based access control for premium features
 
 ### 🎨 UI & Customization
 - Modern glassmorphism design
